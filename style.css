@@ -1,1 +1,172 @@
-/* Add your CSS here */
+/* ─────────────────────────────────────────────────────────── */
+/* 1) Simple navbar styling for beginners */
+* {
+  box-sizing: border-box; /* Ensure padding and borders are included in element's total width and height */
+  margin: 0;              /* Remove default margin */
+  padding: 0;             /* Remove default padding */
+  font-family: Arial, sans-serif; /* Use a clean, sans-serif font */
+}   
+h2{
+  font-size: 1.2rem; /* Responsive font size */
+  color: #020062; /* Dark text for contrast */
+  margin-bottom: 10px; /* Space below the heading */  
+}
+h3{
+  font-size: 1rem; /* Responsive font size */
+  color: #2784ff; /* Slightly lighter text for contrast */
+  margin-bottom: 8px; /* Space below the subheading */ 
+}
+header .header-content{
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* Center the logo horizontally */
+  align-items: center;       /* Center the logo vertically */
+  height: auto;              /* Fixed height for the header */    
+  background: linear-gradient(to right, #247ce0, #50bee3);
+  box-sizing: border-box;
+  padding: 25px 25px;
+}
+.header-logo {
+  height: 40px; /* Set a small height for the logo */
+}
+.header-content h1 {
+  color: #fff; /* White text for contrast */
+  font-size: 1.5rem; /* Responsive font size */
+  margin-top: 10px; /* Space between logo and title */
+}   
+.header-content p{
+  color: #fff; /* White text for contrast */
+  font-size: 1rem; /* Responsive font size */
+  margin-top: 5px; /* Space between title and subtitle */
+  justify-content: center; /* Center the subtitle */
+  text-align: center; /* Center the subtitle text */
+}
+
+/* 2) Timeline container: full-width, horizontal scroll if needed */
+.timeline-container {
+  width: 100%;
+  overflow-x: auto;        /* show scrollbar when >4 cards */
+  box-sizing: border-box;
+  padding: 20px 0;
+  scroll-snap-type: x mandatory; /* Enable horizontal scroll snap */
+}
+
+/* Flex-row wrapper for cards */
+.timeline-cards {
+  display: flex;
+  gap: 16px;               /* gap between cards */
+  flex-wrap: nowrap;       /* never wrap; extra cards go offscreen */
+  justify-content: flex-start;
+}
+
+/* Each card: white background + four across */
+.timeline-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 16px;
+  box-sizing: border-box;
+
+  /* Exactly four cards across (with 3 × 16px gaps) */
+  flex: 0 0 calc((100% - 3 * 16px) / 4);
+
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start; /* Snap each card to the start */
+  position: relative; /* Needed for the overlay */
+}
+
+/* ─────────────────────────────────────────────────────────── */
+/* 3) Image wrapper: force a 16:9 box; position relatives for overlay */
+.image-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 9;   /* force a 16:9 rectangle */
+  overflow: hidden;       /* crop any overflow */
+  border-radius: 4px;     /* rounded corners */
+  margin-bottom: 12px;    /* space under the image */
+  position: relative;     /* needed so .overlay can be absolute inside */
+}
+
+.image-wrapper img {
+  width: 100%;            /* fill the wrapper horizontally */
+  height: 100%;           /* fill the wrapper vertically */
+  object-fit: cover;      /* scale & crop without distortion */
+  display: block;         /* remove inline whitespace */
+}
+
+/* ─────────────────────────────────────────────────────────── */
+/* 4) Overlay text: hidden by default, appears when hovering the image */
+.timeline-card .overlay {
+  /* Do not display until hover */
+  opacity: 0;
+  visibility: hidden;     /* hide from screen readers */
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  /* Cover the entire wrapper */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  /* Center the text with flexbox */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* Match the card’s border radius */
+  border-radius: 4px;
+  /* Padding for readability */
+  padding: 16px;
+  box-sizing: border-box;
+  font-size: clamp(0.8rem, 2vw, 1rem); /* Responsive font size: min 0.8rem, max 1rem */
+   background: linear-gradient(
+    to bottom right, 
+    rgba(0,0,0,0.9), 
+    rgba(40,132,255,0.9)
+  );
+
+}
+
+/* Show the overlay when the user hovers over the .image-wrapper */
+.timeline-card:hover .overlay {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+/* Responsive overlay: adjust padding and font size for smaller screens */
+@media (max-width: 900px) {
+  .image-wrapper .overlay {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .image-wrapper .overlay {
+    padding: 6px;
+    font-size: 0.85rem;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────── */
+/* 5) Mobile stacking for screens ≤ 600px */
+@media (max-width: 600px) {
+  .timeline-cards {
+    flex-direction: column; /* Stack cards vertically */
+    align-items: center;    /* Center cards horizontally */
+  }
+  .timeline-card {
+    min-width: 250px;
+    max-width: 350px; /* Allow a bit wider on smaller screens */
+    width: 90%;       /* Responsive width */
+    margin-bottom: 16px; /* Space between cards */
+  }
+  /* If you want a fixed image height on mobile instead of 16:9: */
+  .image-wrapper {
+    aspect-ratio: auto;  /* turn off 16:9 */
+    height: 200px;       /* force a 200px tall image area */
+  }
+}
